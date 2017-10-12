@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+import TopNav from './components/TopNav';
+
+import Routing from './routing/Routes';
 
 import store from './store/configureStore';
 
-import './App.css';
+// import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h2>Up and Running</h2>
-      </div>
+      <BrowserRouter>
+        <div>
+          <TopNav />
+          <Routing />
+        </div>
+      </BrowserRouter>
     );
   }
 }

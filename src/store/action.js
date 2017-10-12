@@ -21,7 +21,7 @@ const action = {
             type: "DELETE",
             payload: itemId,
         }
-    }
+    },
 }
 
 export default action;
