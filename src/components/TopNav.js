@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { 
     Navbar, 
     NavbarBrand, 
@@ -26,12 +27,12 @@ class TopNav extends Component {
     render() {
         return (
             <div>
-                <Navbar color="faded" light expand="md">
+                <Navbar href="/" color="faded" light expand="md">
                     <NavbarBrand href="/">Address Book</NavbarBrand>
                     <NavbarToggler onClick={()=>this.toggle()} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-                            <NavItem>
+                            <NavItem onClick={() => this.toggle()}>
                                 <Link to="/add" >Add New Contact</Link>
                             </NavItem>
                         </Nav>
@@ -42,4 +43,10 @@ class TopNav extends Component {
     }
 }
 
-export default TopNav;
+const mapStateToProps = (state) => {
+    return {
+        list: state.list,
+    }
+}
+
+export default connect(mapStateToProps, null)(TopNav);

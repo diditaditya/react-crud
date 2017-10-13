@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
-import Detail from './ItemDetail';
+import '../style/styles.css';
 
 class Item extends Component {
     constructor(props) {
@@ -17,11 +19,11 @@ class Item extends Component {
     }
 
     render() {
+        let url = "/contact/" + this.props.item.id;
         return (
-            <div onClick={()=>this.toggleShowDetail()} >
+            <Link to={url}>
                 <p>{this.props.item.firstName} {this.props.item.lastName}</p>
-                <Detail isDetailShown={this.state.detailIsShown} item={this.props.item} />
-            </div>
+            </Link>
         )
     }
 }

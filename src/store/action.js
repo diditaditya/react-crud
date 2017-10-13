@@ -3,7 +3,7 @@ import store from './configureStore';
 const action = {
     add: (item) => {
         return {
-            type: "CREATE",
+            type: "ADD_CONTACT",
             payload: item,
         }
     },
