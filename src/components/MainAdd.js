@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { 
+    Row,
+    Col,
     Form,
     FormGroup,
     Input, 
     Button } from 'reactstrap';
 
 import action from '../store/action';
+
+import '../style/styles.css';
 
 class Add extends Component {
     constructor(props) {
@@ -18,6 +22,7 @@ class Add extends Component {
             address: '',
             phone: '',
             fireRedirect: false,
+            message: '',
         };
     }
 
@@ -34,6 +39,7 @@ class Add extends Component {
             lastName: '',
             address: '',
             phone: '',
+            message: '',
         });
     }
 
@@ -75,69 +81,93 @@ class Add extends Component {
         return true;
     }
 
+    isPhoneValid() {
+        if (this.state.phone.match(/^[0-9]*$/)) {
+            return true;
+        }
+        return false;
+    }
+
     onSubmit() {
         if (this.isNameValid()) {
-            this.props.addContact({
-                id: this.generateNewId(),
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                address: this.state.address,
-                phone: this.state.phone,
-            });
-            this.resetState();
-            this.setState({
-                fireRedirect: true,
-            });
+            if (this.isPhoneValid()) {
+                this.props.addContact({
+                    id: this.generateNewId(),
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    address: this.state.address,
+                    phone: this.state.phone,
+                });
+                this.resetState();
+                this.setState({
+                    fireRedirect: true,
+                });
+            } else {
+                this.setState({
+                    message: "Phone can only consist of numbers",
+                });
+            }
         } else {
-            console.log("Both first and last name may not be empty");
+            this.setState({
+                message: "Both first and last name may not be empty",
+            });
         }
     }
 
     render() {
         return (
             <div>
-                <h4>Add New Contact</h4>
-                <Form>
-                    <FormGroup>
-                        <Input
-                            type="text"
-                            placeholder="First name"
-                            value={this.state.firstName}
-                            onChange={(e) => this.onFirstNameChange(e)}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Input
-                            type="text"
-                            placeholder="Last name"
-                            value={this.state.lastName}
-                            onChange={(e) => this.onLastNameChange(e)}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Input
-                            type="text"
-                            placeholder="Address"
-                            value={this.state.address}
-                            onChange={(e) => this.onAddressChange(e)}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Input
-                            type="text"
-                            placeholder="Phone"
-                            value={this.state.phone}
-                            onChange={(e) => this.onPhoneChange(e)}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Button onClick={() => this.onSubmit()} >Submit</Button>
-                        {this.state.fireRedirect &&
-                            <Redirect to="/" />
-                        }
-                        <Link to="/"><Button>Cancel</Button></Link>
-                    </FormGroup>
-                </Form>                
+                <Row>
+                    <Col xs="1" sm="2" md="3" lg="4" xl="4" />
+                    <Col xs="10" sm="8" md="6" lg="4" xl="4">
+                        <h3 className="page-title" >Add New Contact</h3>
+                        <Form>
+                            <FormGroup>
+                                <Input
+                                    type="text"
+                                    placeholder="First name"
+                                    value={this.state.firstName}
+                                    onChange={(e) => this.onFirstNameChange(e)}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Input
+                                    type="text"
+                                    placeholder="Last name"
+                                    value={this.state.lastName}
+                                    onChange={(e) => this.onLastNameChange(e)}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Input
+                                    type="text"
+                                    placeholder="Phone"
+                                    value={this.state.phone}
+                                    onChange={(e) => this.onPhoneChange(e)}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Input
+                                    type="text"
+                                    placeholder="Address"
+                                    value={this.state.address}
+                                    onChange={(e) => this.onAddressChange(e)}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <div className="button-container" >
+                                    <Button onClick={() => this.onSubmit()} className="button">Submit</Button>
+                                    {this.state.fireRedirect &&
+                                        <Redirect to="/" />
+                                    }
+                                    <Link to="/"><Button className="button">Cancel</Button></Link>
+                                </div>
+                            </FormGroup>
+                        </Form>
+                        <p className="message" >{this.state.message}</p>
+                    </Col>
+                    <Col xs="1" sm="2" md="3" lg="4" xl="4" />
+                </Row>
             </div>
         )
     }

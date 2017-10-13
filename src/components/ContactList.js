@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Row, Col } from 'reactstrap';
 
 import Contact from './Contact';
 import '../'
@@ -12,7 +10,7 @@ class ContactList extends Component {
                 {
                     this.props.list.map(item => {
                         let searchString = this.props.searchString.toLowerCase();
-                        if (/^[?]/.test(searchString)) {
+                        if (/^[?*)(+[\]\\]/.test(searchString)) {
                             return <Contact item={item} key={item.id} />
                         } else {
                             let pattern = RegExp(searchString);

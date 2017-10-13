@@ -11,7 +11,7 @@ class MainList extends Component {
         this.state = {
             searchString: '',
             list: null,
-            isZA: false,
+            isAZ: true,
         };
     }
 
@@ -21,7 +21,7 @@ class MainList extends Component {
 
     sortAllName() {
         let sorted;
-        if (!this.state.isZA) {
+        if (this.state.isAZ) {
             sorted = this.props.list.sort((a, b) => {
                 return `${a.firstName}${a.lastName}`.localeCompare(`${b.firstName}${b.lastName}`) > 0;
             });
@@ -38,23 +38,17 @@ class MainList extends Component {
 
     toggleSort() {
         this.setState({
-            isZA: !this.state.isZA,
-        }, ()=> {
+            isAZ: !this.state.isAZ,
+        }, () => {
             this.sortAllName();
         });
     }
 
-    sortByFirstName(list) {
-        return list.sort((a,b) => {
-            return a.firstName.localeCompare(b.firstName);
-        })
-    }
-
     showSortButton() {
-        if (!this.state.isZA) {
-            return <p onClick={() => this.toggleSort()}>Sort Z-A</p>
+        if (this.state.isAZ) {
+            return <p onClick={() => this.toggleSort()} className="sort-button">Sort Z-A</p>
         } else {
-            return <p onClick={() => this.toggleSort()}>Sort A-Z</p>
+            return <p onClick={() => this.toggleSort()} className="sort-button">Sort A-Z</p>
         }
     }
 
@@ -65,13 +59,12 @@ class MainList extends Component {
     }
 
     render() {
-        // let sorted = this.sortAllName(this.props.list);
         return (
             <div>
                 <Row>
-                    <Col/>
-                    <Col>
-                        <h3>Contact List</h3>
+                    <Col xs="1" sm="2" md="3" lg="4" xl="4" />
+                    <Col xs="10" sm="8" md="6" lg="4" xl="4" >
+                        <h3 className="page-title" >Contact List</h3>
                         <InputGroup>
                             <InputGroupAddon>Search</InputGroupAddon>
                             <Input value={this.state.searchString} onChange={(e)=>{this.onSearchChange(e)}} />
@@ -79,7 +72,7 @@ class MainList extends Component {
                         {this.showSortButton()}
                         <ContactList list={this.state.list} searchString={this.state.searchString}/>
                     </Col>
-                    <Col/>
+                    <Col xs="1" sm="2" md="3" lg="4" xl="4" />
                 </Row>
             </div>
         );

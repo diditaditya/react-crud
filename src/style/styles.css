@@ -1,11 +1,32 @@
-.item-container {
-    border: 1px solid grey;
-    border-radius: 5px;
-    margin: 5px;
-    padding: 5px;
+* {
+    font-family: 'Titillium Web', sans-serif;
 }
 
-.item-container:hover {
-    background-color: skyblue;
+.page-title {
+    text-align: center;
+}
+
+.sort-button {
+    text-align: center;
     cursor: pointer;
+}
+
+.sort-button:hover {
+    color: blue;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button {
+    margin: 5px;
+}
+
+.detail-key {
+    float: right;
+}
+
+.message {
+    text-align: center;
 }

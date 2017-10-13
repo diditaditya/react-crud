@@ -5,6 +5,8 @@ import { Row, Col, Button, Input, Form, FormGroup, Label } from 'reactstrap';
 
 import action from '../store/action';
 
+import '../style/styles.css';
+
 class EditContact extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +17,7 @@ class EditContact extends Component {
             address: '',
             phone: '',
             fireRedirect: false,
+            message: '',
         }
     }
 
@@ -56,20 +59,36 @@ class EditContact extends Component {
         return true;
     }
 
+    isPhoneValid() {
+        if (this.state.phone.match(/^[0-9]*$/)) {
+            return true;
+        }
+        return false;
+    }
+
     onSubmit() {
         if (this.isNameValid()) {
-            this.props.updateContact({
-                id: this.state.id,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                address: this.state.address,
-                phone: this.state.phone,
-            });
-            this.setState({
-                fireRedirect: true,
-            });
+            if (this.isPhoneValid()) {
+                this.props.updateContact({
+                    id: this.state.id,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    address: this.state.address,
+                    phone: this.state.phone,
+                });
+                this.setState({
+                    fireRedirect: true,
+                    message: '',
+                });
+            } else {
+                this.setState({
+                    message: "Phone can only consist of numbers",
+                });
+            }
         } else {
-            console.log("Both first and last name may not be empty");
+            this.setState({
+                message: "Both first and last name may not be empty",
+            });
         }
     }
 
@@ -91,20 +110,12 @@ class EditContact extends Component {
 
 
     render() {
-        // console.log(this.props.match);
-        // let contactDetail = null;
-        // this.props.list.map(contact => {
-        //     console.log(contact);
-        //     if (contact.id === parseInt(this.props.match.params.contactId, 10)) {
-        //         contactDetail = contact;
-        //     }
-        // });
         let detailUrl = "/contact/" + this.props.match.params.contactId;
         return (
             <Row>
-                <Col></Col>
-                <Col>
-                    <p>Edit Detail</p>
+                <Col xs="1" sm="2" md="3" lg="4" xl="4" />
+                <Col xs="10" sm="8" md="6" lg="4" xl="4" >
+                    <h3 className="page-title" >Edit Detail</h3>
                     <Form>
                         <FormGroup>
                             <Label for="firstName">First Name</Label>
@@ -142,17 +153,20 @@ class EditContact extends Component {
                                 onChange={(e) => this.onAddressChange(e)}
                             />
                         </FormGroup>
+                        <FormGroup>
+                            <div className="button-container" >
+                                <Link to={detailUrl}><Button className="button">Cancel</Button></Link>
+                                <Button onClick={() => this.onSubmit()} className="button">Submit</Button>
+                                {
+                                    this.state.fireRedirect &&
+                                    <Redirect to={detailUrl} />
+                                }
+                            </div>
+                        </FormGroup>
                     </Form>
-                    <div>
-                        <Link to={detailUrl}><Button>Cancel</Button></Link>
-                        <Button onClick={()=>this.onSubmit()} >Submit</Button>
-                        {
-                            this.state.fireRedirect &&
-                            <Redirect to={detailUrl} /> 
-                        }
-                    </div>
+                    <p className="message" >{this.state.message}</p>
                 </Col>
-                <Col></Col>
+                <Col xs="1" sm="2" md="3" lg="4" xl="4" />
             </Row>
         )
     }
