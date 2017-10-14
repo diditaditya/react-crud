@@ -40,11 +40,6 @@ const reducer = (state = initialState, action) => {
                     ...state.list.slice(deleteIndex +1)
                 ]
             }
-        case "TOGGLE_ADD":
-            return {
-                ...state,
-                isAddOpen: !state.isAddOpen,
-            }
         default:
             break;
     }

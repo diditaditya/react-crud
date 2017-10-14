@@ -7,9 +7,6 @@ const action = {
             payload: item,
         }
     },
-    getAll: () => {
-        return store.getState()
-    },
     update: (item) => {
         return {
             type: "UPDATE",
