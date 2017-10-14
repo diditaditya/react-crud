@@ -1,5 +1,3 @@
-import store from './configureStore';
-
 const action = {
     add: (item) => {
         return {
