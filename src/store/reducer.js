@@ -1,22 +1,5 @@
-import defaultImage from '../assests/images/anonymous-icon.jpg';
-
-
 const initialState = {
-    list: [{
-        id: 1,
-        firstName: 'Dora',
-        lastName: 'Emon',
-        address: 'aiueo',
-        phone: '1233456789',
-        imageUrl: defaultImage,
-    }, {
-        id: 2,
-        firstName: 'Nobita',
-        lastName: 'Nobi',
-        address: 'qwerty',
-        phone: '987654321',
-        imageUrl: defaultImage,
-    }],
+    list: [],
 };
 
 const reducer = (state = initialState, action) => {

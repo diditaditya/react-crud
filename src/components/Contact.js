@@ -21,7 +21,7 @@ class Item extends Component {
     render() {
         let url = "/contact/" + this.props.item.id;
         return (
-            <Link to={url}>
+            <Link to={url} >
                 <Row className="contact-container" >
                     <Col xs="3" >
                         <img src={this.props.item.imageUrl} className="contact-profpic" alt="profile" />

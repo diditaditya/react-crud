@@ -29,10 +29,13 @@ class Add extends Component {
     }
 
     generateNewId() {
-        let ids = this.props.list.map(contact => {
-            return parseInt(contact.id, 10);
-        });
-        return Math.max(...ids) + 1;
+        if (this.props.list.length > 0) {
+            let ids = this.props.list.map(contact => {
+                return parseInt(contact.id, 10);
+            });
+            return Math.max(...ids) + 1;
+        }
+        return 1;
     }
 
     resetState() {
