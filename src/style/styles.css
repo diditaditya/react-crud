@@ -2,6 +2,18 @@
     font-family: 'Titillium Web', sans-serif;
 }
 
+.nav-container {
+    background-color: aqua;
+    margin-bottom: 25px;
+}
+
+.nav-brand {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    width: 50%;
+}
+
 .page-title {
     text-align: center;
 }
@@ -29,4 +41,47 @@
 
 .message {
     text-align: center;
+}
+
+.preview {
+    min-height: 96px;
+    min-width: 96px;
+    width: 96px;
+    height: 96px;
+    border: 1px solid grey;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.contact-container {
+    border: 1px solid grey;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.contact-container:hover {
+    background-color: skyblue;
+}
+
+.contact-profpic {
+    min-height: 72px;
+    min-width: 72px;
+    width: 72px;
+    height: 72px;
+    max-height: 72px;
+    max-width: 72px;
+    border: 1px solid grey;
+    margin: 5px;
+    color: white;
+    border-radius: 50%;
+}
+
+.contact-name {
+    font-weight: bold;
+    padding-top: 24px;
+}
+
+.detail-profpic {
+    text-align: center;
+    margin: 5px;
 }

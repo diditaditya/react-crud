@@ -8,7 +8,6 @@ import Routing from './routing/Routes';
 
 import store from './store/configureStore';
 
-// import './App.css';
 
 class App extends Component {
   render() {

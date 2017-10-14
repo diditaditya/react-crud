@@ -6,12 +6,13 @@ import {
     Col,
     Form,
     FormGroup,
-    Input, 
+    Input,
     Button } from 'reactstrap';
 
 import action from '../store/action';
 
 import '../style/styles.css';
+import defaultImage from '../assests/images/anonymous-icon.jpg';
 
 class Add extends Component {
     constructor(props) {
@@ -23,6 +24,7 @@ class Add extends Component {
             phone: '',
             fireRedirect: false,
             message: '',
+            imageUrl: defaultImage,
         };
     }
 
@@ -40,6 +42,7 @@ class Add extends Component {
             address: '',
             phone: '',
             message: '',
+            imageUrl: '',
         });
     }
 
@@ -65,6 +68,25 @@ class Add extends Component {
         this.setState({
             phone: event.target.value,
         });
+    }
+
+    onImageChange(event) {
+        let file = document.getElementById('picFile').files[0];
+        if (/image/.test(file.type)) {
+            let reader = new FileReader();
+            reader.onload = (event) => {
+                this.setState({
+                    imageUrl: reader.result,
+                    message: "",
+                });
+            }
+            reader.readAsDataURL(file);
+        } else {
+            this.setState({
+                imageUrl: defaultImage,
+                message: "The file must be image (jpg/png) file"
+            });
+        }
     }
 
     isNameValid() {
@@ -97,6 +119,7 @@ class Add extends Component {
                     lastName: this.state.lastName,
                     address: this.state.address,
                     phone: this.state.phone,
+                    imageUrl: this.state.imageUrl,
                 });
                 this.resetState();
                 this.setState({
@@ -148,10 +171,19 @@ class Add extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <Input
-                                    type="text"
+                                    type="textarea"
                                     placeholder="Address"
                                     value={this.state.address}
                                     onChange={(e) => this.onAddressChange(e)}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <p>Add Profile Picture</p>
+                                <img src={this.state.imageUrl} className="preview" alt="profile" />
+                                <Input 
+                                    type="file"
+                                    id="picFile"
+                                    onChange={(e)=>this.onImageChange(e)} 
                                 />
                             </FormGroup>
                             <FormGroup>

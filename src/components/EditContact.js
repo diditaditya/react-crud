@@ -5,6 +5,7 @@ import { Row, Col, Button, Input, Form, FormGroup, Label } from 'reactstrap';
 
 import action from '../store/action';
 
+import defaultImage from '../assests/images/anonymous-icon.jpg';
 import '../style/styles.css';
 
 class EditContact extends Component {
@@ -16,6 +17,7 @@ class EditContact extends Component {
             lastName: '',
             address: '',
             phone: '',
+            imageUrl: '',
             fireRedirect: false,
             message: '',
         }
@@ -43,6 +45,25 @@ class EditContact extends Component {
         this.setState({
             phone: event.target.value,
         });
+    }
+
+    onImageChange(event) {
+        let file = document.getElementById('picFile').files[0];
+        if (/image/.test(file.type)) {
+            let reader = new FileReader();
+            reader.onload = (event) => {
+                this.setState({
+                    imageUrl: reader.result,
+                    message: "",
+                });
+            }
+            reader.readAsDataURL(file);
+        } else {
+            this.setState({
+                imageUrl: defaultImage,
+                message: "The file must be image (jpg/png) file"
+            });
+        }
     }
 
     isNameValid() {
@@ -75,6 +96,7 @@ class EditContact extends Component {
                     lastName: this.state.lastName,
                     address: this.state.address,
                     phone: this.state.phone,
+                    imageUrl: this.state.imageUrl,
                 });
                 this.setState({
                     fireRedirect: true,
@@ -100,16 +122,24 @@ class EditContact extends Component {
             }
             return null;
         });
-        this.setState({
-            firstName: contactDetail.firstName,
-            lastName: contactDetail.lastName,
-            phone: contactDetail.phone,
-            address: contactDetail.address,
-        });
+        if (contactDetail !== null) {
+            this.setState({
+                firstName: contactDetail.firstName,
+                lastName: contactDetail.lastName,
+                phone: contactDetail.phone,
+                address: contactDetail.address,
+                imageUrl: contactDetail.imageUrl,
+            });
+        }
     }
 
 
     render() {
+        if (this.props.list) {
+            if (this.props.list.findIndex((el) => { return String(el.id) === this.props.match.params.contactId }) === -1) {
+                return <Redirect to="/" />
+            }
+        }       
         let detailUrl = "/contact/" + this.props.match.params.contactId;
         return (
             <Row>
@@ -147,10 +177,19 @@ class EditContact extends Component {
                         <FormGroup>
                             <Label for="address">Address</Label>
                             <Input
-                                type="text"
+                                type="textarea"
                                 id="address"
                                 value={this.state.address}
                                 onChange={(e) => this.onAddressChange(e)}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <p>Change Profile Picture</p>
+                            <img src={this.state.imageUrl} className="preview" alt="profile" />
+                            <Input
+                                type="file"
+                                id="picFile"
+                                onChange={(e) => this.onImageChange(e)}
                             />
                         </FormGroup>
                         <FormGroup>

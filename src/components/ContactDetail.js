@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { Row, Col, Button } from 'reactstrap';
+import { 
+    Row, 
+    Col, 
+    Button, 
+    Modal, 
+    ModalHeader, 
+    ModalBody, 
+    ModalFooter } from 'reactstrap';
 
 import action from '../store/action';
 
@@ -17,18 +24,21 @@ class Detail extends Component {
             address: '',
             phone: '',
             fireRedirect: false,
+            modal: false,
         }
     }
 
-    onDelete() {
-        console.log(this.props.match);
-        let confirmed = window.confirm(`Do you want to delete ${this.state.firstName} ${this.state.lastName}?`);
-        if (confirmed) {
-            this.props.deleteContact(parseInt(this.props.match.params.contactId, 10));
-            this.setState({
-                fireRedirect: true,
-            });
-        }
+    toggleModal() {
+        this.setState({
+            modal: !this.state.modal,
+        });
+    }
+
+    deleteContact() {
+        this.props.deleteContact(parseInt(this.props.match.params.contactId, 10));
+        this.setState({
+            fireRedirect: true,
+        });
     }
 
     componentDidMount() {
@@ -41,6 +51,7 @@ class Detail extends Component {
                             lastName: contact.lastName,
                             phone: contact.phone,
                             address: contact.address,
+                            imageUrl: contact.imageUrl,
                         });
                     }
                     return null;
@@ -50,6 +61,11 @@ class Detail extends Component {
     }
 
     render() {
+        if (this.props.list) {
+            if (this.props.list.findIndex((el) => { return String(el.id) === this.props.match.params.contactId }) === -1) {
+                return <Redirect to="/" />
+            }
+        }   
         let contactDetail = this.state;
         let editUrl = "/contact/" + this.props.match.params.contactId + "/edit";
         return (
@@ -59,6 +75,9 @@ class Detail extends Component {
                     <Col xs="10" sm="8" md="6" lg="4" xl="4">
                         <h3 className="page-title" >Contact Detail</h3>
                         <div>
+                            <div className="detail-profpic" >
+                                <img src={contactDetail.imageUrl} className="preview" alt="profile" />
+                            </div>
                             <Row>
                                 <Col>
                                     <p className="detail-key" >First Name :</p>
@@ -95,7 +114,7 @@ class Detail extends Component {
                         <div className="button-container" >
                             <Link to="/"><Button className="button">Back</Button></Link>
                             <Link to={editUrl}><Button className="button">Edit</Button></Link>
-                            <Button onClick={() => this.onDelete()} className="button">Delete</Button>
+                            <Button onClick={() => this.toggleModal()} className="button">Delete</Button>
                             {
                                 this.state.fireRedirect &&
                                 <Redirect to="/" />
@@ -104,6 +123,20 @@ class Detail extends Component {
                     </Col>
                     <Col xs="1" sm="2" md="3" lg="4" xl="4" />
                 </Row>
+                <div>
+                    <Modal isOpen={this.state.modal} toggle={()=>this.toggleModal()}>
+                        <ModalHeader toggle={()=>this.toggleModal()}>
+                            Delete Contact?
+                        </ModalHeader>
+                        <ModalBody>
+                            Do you want to delete {this.state.firstName} {this.state.lastName}?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="danger" onClick={()=>this.deleteContact()} >Yes</Button>
+                            <Button onClick={()=>this.toggleModal()}>No</Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
             </div>
         )
     }

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { 
     Navbar, 
-    NavbarBrand, 
     Nav, 
     NavItem, 
     Collapse,
     NavbarToggler } from 'reactstrap';
 
+import '../style/styles.css';
 
 class TopNav extends Component {
     constructor(props) {
@@ -26,9 +26,9 @@ class TopNav extends Component {
 
     render() {
         return (
-            <div>
-                <Navbar href="/" color="faded" light expand="md">
-                    <NavbarBrand href="/">Address Book</NavbarBrand>
+            <div className="nav-container">
+                <Navbar color="faded" light expand="md">
+                    <Link to="/" className="nav-brand"> Address Book</Link>
                     <NavbarToggler onClick={()=>this.toggle()} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
